@@ -87,7 +87,7 @@ Copy server files :
 
 **Step 15**: Configuring SSL for HDFS/YARN and MR
 
--From Ambari Set below properties in referred config files(From Filter serch for property if no results then you can add property under Customer <>-site secion)
+-From Ambari Set below properties in referred config files(From Filter search for property if no results then you can add property under custom <>-site section)
 *core-site.xml*
 
     hadoop.rpc.protection=privacy
@@ -133,11 +133,13 @@ Copy server files :
     yarn.nodemanager.webapp.https.address=0.0.0.0:8044
 
 **Step 16**: Restart all the required services from Ambari: 
-
-**Step 17**: Setup truststore for ambari server
+**Step 17**: Copy truststore.jks to ambari server to create ambari server truststore.
+**Step 18**: Setup truststore for ambari server using the truststore copied in Step 17:  
 
     #ambari-server setup-security (option 4)
 
-**Step 18**: Restart Ambari server
+**Step 19**: Restart Ambari server
 
     #ambari-server restart
+    
+**Step 20**: Verify if Ambari  shows metrics in dashboard and also verify if quick links for hdfs/yarn/mr are accessible on https: 
