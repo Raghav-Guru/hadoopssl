@@ -132,8 +132,10 @@ Copy server files :
     yarn.resourcemanager.webapp.https.address=<RM>:8090
     yarn.nodemanager.webapp.https.address=0.0.0.0:8044
 
-**Step 16**: Restart all the required services from Ambari: 
+**Step 16**: Restart all the required services from Ambari
+
 **Step 17**: Copy truststore.jks to ambari server to create ambari server truststore.
+
 **Step 18**: Setup truststore for ambari server using the truststore copied in Step 17:  
 
     #ambari-server setup-security (option 4)
@@ -141,5 +143,4 @@ Copy server files :
 **Step 19**: Restart Ambari server
 
     #ambari-server restart
-    
 **Step 20**: Verify if Ambari  shows metrics in dashboard and also verify if quick links for hdfs/yarn/mr are accessible on https: 
