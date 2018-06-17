@@ -36,7 +36,7 @@ Creating certificates and Truststore/Keystore
 
     #mkdir /var/tmp/SSL; cd /var/tmp/SSL
 
-**Step 7**: Generate keys and CSR using the key created for each hosts. Make sure the common name portion of the certificate matches the hostname where the certificate will be deployed.
+**Step 7**: GENERATE KEYS and CSR using that corresponding key. Make sure the common name portion of the certificate matches the hostname where the certificate will be deployed.
 
     #openssl genrsa -out <Hostname>.key 2048
     #openssl req -new -sha256 -key <Hostname>.key  -out <Hostname>.csr
@@ -45,7 +45,7 @@ Creating certificates and Truststore/Keystore
 (Repeat the Step 7 for all the hosts which require cert)
 
  
-**Step 8**:  Sign the all csr created in Step 7 using the CA created in 'Step 2': (Repeat this step for each csr)
+**Step 8**:  Sign the all csr created in Step 7 using the CA created in 'Step 2': 
 
     #openssl x509 -req -CA /root/CA/certs/ca.crt -CAkey /root/CA/private/ca.key -in <.csr file> -out <Hostname>.crt -days 365 -CAcreateserial
     #openssl x509 -in <Hostname>.crt -noout -text
@@ -72,12 +72,11 @@ Creating certificates and Truststore/Keystore
 
 **Step 14**: Copy the jks files in the respective locations (Repeat this step on all hosts): 
 
-#cp all.jks /etc/security/clientKeys/
-
-    #cp <hostname>.jks /etc/security/clientKeys/keystore.jks
-    #chmod 440 /etc/security/clientKeys/keystore.jks
-    #cp truststore.jks /etc/security/clientKeys/truststore.jks
-    #chmod 444 /etc/security/clientKeys/truststore.jks
+      #cp all.jks /etc/security/clientKeys/
+      #cp <hostname>.jks /etc/security/clientKeys/keystore.j
+      #chmod 440 /etc/security/clientKeys/keystore.jks
+      #cp truststore.jks /etc/security/clientKeys/truststore.jks
+      #chmod 444 /etc/security/clientKeys/truststore.jks
 
 Copy server files :
 
@@ -98,7 +97,7 @@ Copy server files :
     hadoop.ssl.server.conf=ssl-server.xml
     hadoop.ssl.client.conf=ssl-client.xml
 
--*ssl-server.xml* configure keystore location and password
+-And in *ssl-server.xml* configure keystore location and password
 
     ssl.server.keystore.keypassword: <keystore Key password>
     ssl.server.keystore.password: <Keystore Password>
@@ -106,14 +105,14 @@ Copy server files :
     ssl.server.truststore.location :/etc/security/serverKeys/truststore.jks
     ssl.server.truststore.password: <truststore Password>
 
-- *ssl-client.xml* config:
+-In *ssl-client.xml* config:
 
     ssl.client.keystore.location: /etc/security/clientKeys/keystore.jks
     ssl.client.keystore.password: <keystorePassword>
     ssl.client.truststore.location: /etc/security/clientKeys/all.jks
     ssl.client.truststore.password: <TrustStorePassword>
 
-- *hdfs-site.xml*
+*hdfs-site.xml*
 
     dfs.encrypt.data.transfer=true
     dfs.encrypt.data.transfer.algorithm=3des
@@ -121,12 +120,12 @@ Copy server files :
     dfs.datanode.https.address=<hostname>:50475
     dfs.namenode.https-address=<hostname>:50470
 
-- *mapred-site.xml*
+*mapred-site.xml*
 
     mapreduce.jobhistory.http.policy=HTTPS_ONLY
     mapreduce.jobhistory.webapp.https.address=0.0.0.0:19890
 
-- *yarn-site.xml*
+*yarn-site.xml*
 
     yarn.http.policy=HTTPS_ONLY
     yarn.log.server.url=https://<mapred-history-server-host>:19890/jobhistory/logs
