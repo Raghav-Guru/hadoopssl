@@ -1,6 +1,9 @@
 ## Enable SSL on Hadoop services(HDFS/YARN/MR)
 
-Creating certificates and Truststore/Keystore
+
+### Create certificates and Truststore/Keystore
+
+**Create certificate authority :** 
 
 **Step 1**: Install OpenSSL, for example on CentOS run:
 
@@ -13,7 +16,7 @@ Creating certificates and Truststore/Keystore
 
 (Create CA with Common Name(CN) set with name '*Root CA*')
 
-**Step3**: Set up the CA directory structure and copy CA key and CA crt created in step 2 to /root/CA/private and /root/CA/certs respectively:
+**Step 3**: Set up the CA directory structure and copy CA key and CA crt created in step 2 to /root/CA/private and /root/CA/certs respectively:
 
     #mkdir -p -m 0700 /root/CA/{certs,crl,newcerts,private}
     #mv ca.key /root/CA/private;mv ca.crt /root/CA/certs
@@ -31,6 +34,7 @@ Creating certificates and Truststore/Keystore
     dir             = /root/CA/         # Where everything is kept
     [...]
 
+### Create and Sign CSR :
 
 **Step 6**: Create a directory which will be used for new csr and certs: 
 
@@ -50,6 +54,8 @@ Creating certificates and Truststore/Keystore
     #openssl x509 -req -CA /root/CA/certs/ca.crt -CAkey /root/CA/private/ca.key -in <.csr file> -out <Hostname>.crt -days 365 -CAcreateserial
     #openssl x509 -in <Hostname>.crt -noout -text
 
+### Create jks keystore and truststore:
+
 **Step 9**: Create PKCS12 keystore and convert it to JKS(Repeat this step for all the .key and .crt of each hosts): 
 
     #openssl pkcs12 -export -inkey <hostname>.key -in <hostname>.crt -certfile /root/CA/certs/ca.crt -out <hostname>.pfx
@@ -64,6 +70,8 @@ Creating certificates and Truststore/Keystore
     #keytool -import -keystore truststore.jks -alias rootca -file ca.crt
     #cp truststore.jks all.jks 
 
+### Distribute keystore and truststore to all hosts:
+
 **Step 12**: On all the hosts in the cluster create the directory structure which will be used in configuration: 
 
     #mkdir -m 0755 /etc/security/{serverKeys,clientKeys}
@@ -73,7 +81,7 @@ Creating certificates and Truststore/Keystore
 **Step 14**: Copy the jks files in the respective locations (Repeat this step on all hosts): 
 
       #cp all.jks /etc/security/clientKeys/
-      #cp <hostname>.jks /etc/security/clientKeys/keystore.j
+      #cp <hostname>.jks /etc/security/clientKeys/keystore.jks
       #chmod 440 /etc/security/clientKeys/keystore.jks
       #cp truststore.jks /etc/security/clientKeys/truststore.jks
       #chmod 444 /etc/security/clientKeys/truststore.jks
@@ -84,6 +92,8 @@ Copy server files :
     #cp truststore.jks /etc/security/serverKeys/truststore.jks
     #chmod 440 /etc/security/serverKeys/*
     #chown -R yarn:hadoop /etc/security/{serverKeys,clientKeys}
+
+### Configure services for SSL using keystores and truststore created in previous section:
 
 **Step 15**: Configuring SSL for HDFS/YARN and MR
 
@@ -134,13 +144,16 @@ Copy server files :
 
 **Step 16**: Restart all the required services from Ambari
 
+### Configure Ambari truststore:
+
 **Step 17**: Copy truststore.jks to ambari server to create ambari server truststore.
 
-**Step 18**: Setup truststore for ambari server using the truststore copied in Step 17:  
+**Step 18**: Setup truststore for ambari server using the truststore copied in *Step 17*:  
 
     #ambari-server setup-security (option 4)
 
 **Step 19**: Restart Ambari server
 
     #ambari-server restart
+    
 **Step 20**: Verify if Ambari  shows metrics in dashboard and also verify if quick links for hdfs/yarn/mr are accessible on https: 
