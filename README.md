@@ -97,7 +97,7 @@ Copy server files :
 
 **Step 15**: Configuring SSL for HDFS/YARN and MR
 
--From Ambari Set below properties in referred config files(From Filter search for property if no results then you can add property under custom <>-site section)
+From Ambari Set below properties in referred config files(From Filter search for property if no results then you can add property under custom <>-site section)
 *core-site.xml*
 
     hadoop.rpc.protection=privacy
@@ -107,7 +107,7 @@ Copy server files :
     hadoop.ssl.server.conf=ssl-server.xml
     hadoop.ssl.client.conf=ssl-client.xml
 
--And in *ssl-server.xml* configure keystore location and password
+*ssl-server.xml* configure keystore location and password
 
     ssl.server.keystore.keypassword: <keystore Key password>
     ssl.server.keystore.password: <Keystore Password>
@@ -115,7 +115,7 @@ Copy server files :
     ssl.server.truststore.location :/etc/security/serverKeys/truststore.jks
     ssl.server.truststore.password: <truststore Password>
 
--In *ssl-client.xml* config:
+*ssl-client.xml* config:
 
     ssl.client.keystore.location: /etc/security/clientKeys/keystore.jks
     ssl.client.keystore.password: <keystorePassword>
