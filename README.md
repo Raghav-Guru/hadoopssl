@@ -3,7 +3,7 @@
 
 ### Create certificates and Truststore/Keystore
 
-**-Create certificate authority (CA) :** 
+**Create certificate authority (CA) :** 
 
 **Step 1**: Install OpenSSL, for example on CentOS run:
 
@@ -34,7 +34,7 @@
     dir             = /root/CA/         # Where everything is kept
     [...]
 
-**-Create and Sign CSR :**
+**Create and Sign CSR :**
 
 **Step 6**: Create a directory which will be used for new csr and certs: 
 
@@ -54,7 +54,7 @@
     #openssl x509 -req -CA /root/CA/certs/ca.crt -CAkey /root/CA/private/ca.key -in <.csr file> -out <Hostname>.crt -days 365 -CAcreateserial
     #openssl x509 -in <Hostname>.crt -noout -text
 
-**-Create jks keystore and truststore:**
+**Create jks keystore and truststore:**
 
 **Step 9**: Create PKCS12 keystore and convert it to JKS(Repeat this step for all the .key and .crt of each hosts): 
 
@@ -70,7 +70,7 @@
     #keytool -import -keystore truststore.jks -alias rootca -file ca.crt
     #cp truststore.jks all.jks 
 
-**-Distribute keystore and truststore to all hosts:**
+**Distribute keystore and truststore to all hosts:**
 
 **Step 12**: On all the hosts in the cluster create the directory structure which will be used in configuration: 
 
@@ -93,7 +93,7 @@ Copy server files :
     #chmod 440 /etc/security/serverKeys/*
     #chown -R yarn:hadoop /etc/security/{serverKeys,clientKeys}
 
-**-Configure services for SSL using keystores and truststore created in previous section:**
+### Configure services for SSL using keystores and truststore created in previous section:
 
 **Step 15**: Configuring SSL for HDFS/YARN and MR
 
@@ -144,7 +144,7 @@ From Ambari Set below properties in referred config files(From Filter search for
 
 **Step 16**: Restart all the required services from Ambari
 
-**-Configure Ambari truststore:**
+### Configure Ambari truststore
 
 **Step 17**: Copy truststore.jks to ambari server to create ambari server truststore.
 
