@@ -11,7 +11,7 @@ Creating certificates and Truststore/Keystore
     #openssl genrsa -out ca.key 8192
     #openssl req -new -x509 -extensions v3_ca -key ca.key -out ca.crt -days 365
 
-(Create CA with Common Name(CN) set to Root CA)
+(Create CA with Common Name(CN) set with name '*Root CA*')
 
 **Step3**: Set up the CA directory structure and copy CA key and CA crt created in step 2 to /root/CA/private and /root/CA/certs respectively:
 
@@ -36,7 +36,7 @@ Creating certificates and Truststore/Keystore
 
     #mkdir /var/tmp/SSL; cd /var/tmp/SSL
 
-**Step 7**: GENERATE KEYS and CSR using that corresponding key. Make sure the common name portion of the certificate matches the hostname where the certificate will be deployed.
+**Step 7**: Generate keys and csr using that corresponding key of each host. Make sure the common name portion of the certificate matches the hostname where the certificate will be deployed.
 
     #openssl genrsa -out <Hostname>.key 2048
     #openssl req -new -sha256 -key <Hostname>.key  -out <Hostname>.csr
