@@ -1,27 +1,27 @@
-                   **
-
 ## Enable SSL on Hadoop services(HDFS/YARN/MR)
 
 Creating certificates and Truststore/Keystore
 
 **Step 1**: Install OpenSSL, for example on CentOS run:
 
-#yum install openssl
+    #yum install openssl
 
 **Step 2**: Generate a CA signing key and certificate:
 
-#openssl genrsa -out ca.key 8192
-#openssl req -new -x509 -extensions v3_ca -key ca.key -out ca.crt -days 365
+    #openssl genrsa -out ca.key 8192
+    #openssl req -new -x509 -extensions v3_ca -key ca.key -out ca.crt -days 365
+
 (Create CA with Common Name(CN) set to Root CA)
 
 **Step3**: Set up the CA directory structure and copy CA key and CA crt created in step 2 to /root/CA/private and /root/CA/certs respectively:
 
-#mkdir -p -m 0700 /root/CA/{certs,crl,newcerts,private}
-#mv ca.key /root/CA/private;mv ca.crt /root/CA/certs
+    #mkdir -p -m 0700 /root/CA/{certs,crl,newcerts,private}
+    #mv ca.key /root/CA/private;mv ca.crt /root/CA/certs
 
 **Step 4**: Add required files and set permissions on the ca.key:
-#touch /root/CA/index.txt; echo 1000 > /root/CA/serial
-#chmod 0400 /root/CA/private/ca.key
+
+    #touch /root/CA/index.txt; echo 1000 > /root/CA/serial
+    #chmod 0400 /root/CA/private/ca.key
 
 **Step 5**: Configure openssl.cnf to set the directory path to /root/CA/:
 
