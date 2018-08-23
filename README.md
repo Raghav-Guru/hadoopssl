@@ -5,6 +5,8 @@
 
 #### Create certificate authority (CA) :
 
+Create CA should only be done once and this can be used for signing host specific cert requests created in step 7.
+
 **Step 1**: Install OpenSSL, for example on CentOS run:
 
     #yum install openssl
