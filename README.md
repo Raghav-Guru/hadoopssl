@@ -161,4 +161,4 @@ From Ambari Set below properties in referred config files(From Filter search for
 **Step 20**: Verify if Ambari  shows metrics in dashboard and also verify if quick links for hdfs/yarn/mr are accessible on https.
 
 
-Note : https://github.com/Raghav-Guru/Create-CA-signed-certs-in-JKS-format-keystore has a python to automate the process of creating CA signed keystore(still under active updates)
+Note : https://github.com/Raghav-Guru/Create-CA-signed-certs-in-JKS-format-keystore has a python script to automate the process of creating CA signed keystore(still under active updates)
